@@ -1,7 +1,10 @@
 
 <template>
-  <div class="col-span-2 row-span-2 logo rounded-[24px] shadow-md">
-    <div class="displayHover w-7/12 rounded-[24px] transition-opacity duration-300 ease-in-out">
+  <div class="col-span-2 row-span-2 logo rounded-[24px] shadow-md flex items-center">
+    <div class="logo-title">
+      <h2 class="text-white text-7xl font-bold">Café mobile éco-responsable</h2>
+    </div>
+    <div class="displayHover w-7/12 rounded-[24px]">
       <div>
         <h2 class="text-[64px] opacity-100 font-bold">Histoire.</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, explicabo mollitia assumenda labore laudantium vitae, error sapiente unde id dolorem, sed sit aliquid ratione! Veniam repellendus nam quam cumque unde?</p>
@@ -11,6 +14,7 @@
 </template>
 
 <script setup>
+  const hover = ref(true)
 </script>
 
 <style scoped>
@@ -38,8 +42,30 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
     pointer-events: none; /* Prevents the overlay from capturing mouse events */
-    opacity: 30%; /* Start fully transparent */
+    opacity: 50%; /* Start fully transparent */
     transition: opacity 300ms ease-in-out; /* Smooth transition for opacity */
+  }
+
+  .logo-title {
+    position: absolute;
+    top: 0; /* Adjust as needed */
+    left: 0; /* Adjust as needed */
+    width: 100%; /* span the full width of the logo */
+    text-align: left; /* center the text */
+    color: white; /* choose color that contrasts well with the background */
+    top: 50%; /* Align the top edge of the element at the center of the parent */
+    left: 50%;/* Align the left edge of the element at the center of the parent */
+    transform: translate(-50%, -50%); /* Shift the element left and up by half its own width and height to center it */
+    width: 100%;
+    opacity: 100;
+    padding: 30px;
+    transition: opacity 300ms ease-in-out;
+    box-sizing: border-box; /* Include padding in the width calculation */
+    z-index: 10; /* Ensure the title is above the background image */
+  }
+
+  .logo:hover .logo-title {
+    opacity: 0;
   }
 
   .logo:hover {
@@ -65,6 +91,7 @@
     text-align: left; /* Centers text within the content block */
     color: white;
     background-color: #252525e7;
+    z-index: 20
 }
 
 
