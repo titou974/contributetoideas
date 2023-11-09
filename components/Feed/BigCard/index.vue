@@ -1,22 +1,20 @@
 
-import type { isWhiteSpaceLike } from 'typescript';
-
 <template>
-  <div class="col-span-2 row-span-2 logo rounded-[24px] shadow-md flex flex-col justify-between pb-28 relative">
+  <div :style="urlBackground" class="col-span-2 row-span-2 logo rounded-[24px] shadow-md flex flex-col justify-between pb-28 relative">
     <div class="profile-button pt-28 ps-[30px]">
       <button class="btn btn-sm rounded-full">
         imaginé par
-        <span class="font-bold">Laure</span>
+        <span class="font-bold">{{ props.author }}</span>
         <div class="avatar">
           <div class="w-5 rounded-full">
-            <NuxtImg src="/profile1.jpg" />
+            <NuxtImg :src="urlProfile" />
           </div>
         </div>
       </button>
     </div>
     <div class="logo-title">
       <div>
-        <h2 class="text-white text-7xl font-bold">Café mobile éco-responsable</h2>
+        <h2 class="text-white text-7xl font-bold">{{ props.title }}</h2>
       </div>
     </div>
     <div class="displayHover w-7/12 rounded-[24px]">
@@ -37,7 +35,9 @@ import type { isWhiteSpaceLike } from 'typescript';
       </div>
       <div class="pt-5">
         <h2 class="text-[64px] opacity-100 font-bold">Histoire.</h2>
-        <p class="tracking-wider italic leading-7"><span class="text-[32px] font-semibold">L</span>orem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, explicabo mollitia assumenda labore laudantium vitae, error sapiente unde id dolorem, sed sit aliquid ratione! Veniam repellendus nam quam cumque unde? </p>
+        <p class="tracking-wider italic leading-7">
+          <span class="text-[32px] font-semibold">{{ firstLetter }}</span>{{ remainingText }}
+        </p>
       </div>
     </div>
     <div class="flex gap-10 items-center ps-[30px]">
@@ -57,6 +57,38 @@ import type { isWhiteSpaceLike } from 'typescript';
 
 <script setup>
   const loading = ref(true)
+  const props = defineProps({
+    title: {
+      type: String,
+      required: true
+    },
+    author: {
+      type: String,
+      required: true
+    },
+    story: {
+      type: String,
+      required: true
+    },
+    imagePathAuthor: {
+      type: String,
+      required: true
+    },
+    imagePathIdea: {
+      type: String,
+      required: true
+    }
+  });
+  const urlBackground = computed(() => {
+    return {
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${props.imagePathIdea})`
+    }
+  })
+  const urlProfile = computed(() => {
+    return `${props.imagePathAuthor }`
+  })
+  const firstLetter = computed(() => props.story.charAt(0))
+  const remainingText = computed(() => props.story.slice(1))
 </script>
 
 <style scoped>
