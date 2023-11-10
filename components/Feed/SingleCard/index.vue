@@ -102,7 +102,7 @@
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
-    min-height: 350px;
+    min-height: 390px;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -155,7 +155,11 @@
     background-color: #252525e7;
     z-index: 20;
     height: 100%;
-}
+  }
+
+  .dark .displayHover {
+    background-color: #09250fdb;
+  }
 
   .logo:hover .profile-button button:hover {
     background-color: #35B751;

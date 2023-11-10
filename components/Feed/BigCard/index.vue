@@ -155,6 +155,10 @@
     z-index: 20;
 }
 
+  .dark .displayHover {
+    background-color: #09250fdb;
+  }
+
   .logo:hover .profile-button button:hover {
     background-color: #35B751;
     border: 1px #35B751 solid;
