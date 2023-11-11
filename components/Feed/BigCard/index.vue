@@ -7,7 +7,7 @@
         <span class="font-bold">{{ props.author }}</span>
         <div class="avatar">
           <div class="w-5 rounded-full">
-            <NuxtImg :src="urlProfile" />
+            <img :src="props.imagePathAuthor" />
           </div>
         </div>
       </button>
@@ -26,18 +26,60 @@
             <path d="M12 16.5c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 001.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 001.897 1.384C6.809 15.914 9.315 16.5 12 16.5z" />
             <path d="M12 20.25c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 001.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 001.897 1.384C6.809 19.664 9.315 20.25 12 20.25z" />
           </svg>
-
         </div>
         <div class="badge badge-lg ms-5 fill-rose-700 bg-white">987,654
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ms-2" fill="rose-700" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </div>
       </div>
-      <div class="pt-5">
-        <h2 class="text-[64px] opacity-100 font-bold">Histoire.</h2>
-        <p class="tracking-wider italic leading-7">
-          <span class="text-[32px] font-semibold">{{ firstLetter }}</span>{{ remainingText }}
-        </p>
+      <div class="pt-10">
+        <Swiper
+          :modules="[SwiperAutoplay, SwiperEffectCreative]"
+          :slides-per-view="1"
+          :loop="true"
+          :effect="'creative'"
+          :autoplay="{
+            delay: 3000,
+            disableOnInteraction: false,
+          }"
+          :creative-effect="{
+            prev: {
+              shadow: false,
+              translate: ['-100%', 0, -1],
+            },
+            next: {
+              translate: ['100%', 0, 0],
+            },
+          }"
+        >
+        <SwiperSlide>
+          <div class="px-[30px]">
+            <h2 class="text-2xl opacity-100 font-bold">L'idée.</h2>
+            <p class="tracking-wider italic leading-7 pt-2">
+              "{{ props.vision }}"
+            </p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div class="px-[30px]">
+            <h2 class="text-2xl opacity-100 font-bold">Histoire.</h2>
+            <p class="tracking-wider italic leading-7 pt-2">
+              <span class="text-2xl font-semibold">{{ firstLetter }}</span>{{ remainingText }}
+            </p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div class="px-[30px]">
+            <h2 class="text-2xl opacity-100 font-bold">Recrute.</h2>
+            <ul>
+              <li class="pt-3" v-for="(job, index) in looking_for">{{ job.job }}<br/><span class="font-bold">{{ job.paidPricePerDay }}€ /jour</span></li>
+            </ul>
+          </div>
+        </SwiperSlide>
+        <div class="absolute z-50 flex justify-between transform -translate-y-1/2 left-[-5px] right-[-5px] top-1/2">
+          <SwipperNav />
+        </div>
+        </Swiper>
       </div>
     </div>
     <div class="flex gap-10 items-center ps-[30px]">
@@ -70,6 +112,15 @@
       type: String,
       required: true
     },
+    vision: {
+      type: String,
+      required: true
+    },
+    looking_for: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     imagePathAuthor: {
       type: String,
       required: true
@@ -83,9 +134,6 @@
     return {
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${props.imagePathIdea})`
     }
-  })
-  const urlProfile = computed(() => {
-    return `${props.imagePathAuthor }`
   })
   const firstLetter = computed(() => props.story.charAt(0))
   const remainingText = computed(() => props.story.slice(1))

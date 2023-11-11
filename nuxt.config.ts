@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   //   strict: true
   // },
   css: ['~/assets/css/main.css', '~/assets/css/bigcard.css'],
-  modules: ['@nuxtjs/tailwindcss', "@nuxt/image"],
+  modules: ['@nuxtjs/tailwindcss', "@nuxt/image", 'nuxt-swiper'],
   postcss: {
     plugins: {
       tailwindcss: {},

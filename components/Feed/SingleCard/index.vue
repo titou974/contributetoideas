@@ -7,7 +7,7 @@
         <span class="font-bold">{{ props.author }}</span>
         <div class="avatar">
           <div class="w-5 rounded-full">
-            <NuxtImg :src="urlProfile" />
+            <img :src="props.imagePathAuthor" />
           </div>
         </div>
       </button>
@@ -17,8 +17,8 @@
         <h2 class="text-white text-4xl font-bold">{{ props.title }}</h2>
       </div>
     </div>
-    <div class="displayHover w-7/12 rounded-[24px]">
-      <div class="flex items-center">
+    <div class="displayHover w-7/12 rounded-[24px] relative">
+      <div class="flex items-center px-[30px]">
         <div class="badge badge-lg fill-yellow-500 text-semibold">27,654€
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  class="w-5 h-5 ms-2">
             <path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875z" />
@@ -33,10 +33,53 @@
         </div>
       </div>
       <div class="pt-10">
-        <h2 class="text-4xl opacity-100 font-bold">Histoire.</h2>
-        <p class="tracking-wider italic leading-7 pt-2">
-          <span class="text-[25px] font-semibold">{{ firstLetter }}</span>{{ remainingText }}
-        </p>
+        <Swiper
+          :modules="[SwiperAutoplay, SwiperEffectCreative]"
+          :slides-per-view="1"
+          :loop="true"
+          :effect="'creative'"
+          :autoplay="{
+            delay: 3000,
+            disableOnInteraction: false,
+          }"
+          :creative-effect="{
+            prev: {
+              shadow: false,
+              translate: ['-100%', 0, -1],
+            },
+            next: {
+              translate: ['100%', 0, 0],
+            },
+          }"
+        >
+        <SwiperSlide>
+          <div class="px-[30px]">
+            <h2 class="text-2xl opacity-100 font-bold">L'idée.</h2>
+            <p class="tracking-wider italic leading-7 pt-2">
+              "{{ props.vision }}"
+            </p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div class="px-[30px]">
+            <h2 class="text-2xl opacity-100 font-bold">Histoire.</h2>
+            <p class="tracking-wider italic leading-7 pt-2">
+              <span class="text-2xl font-semibold">{{ firstLetter }}</span>{{ remainingText }}
+            </p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div class="px-[30px]">
+            <h2 class="text-2xl opacity-100 font-bold">Recrute.</h2>
+            <ul>
+              <li class="pt-3" v-for="(job, index) in looking_for">{{ job.job }}<br/><span class="font-bold">{{ job.paidPricePerDay }}€ /jour</span></li>
+            </ul>
+          </div>
+        </SwiperSlide>
+        <div class="absolute z-50 flex justify-between transform -translate-y-1/2 left-[-5px] right-[-5px] top-1/2">
+          <SwipperNav />
+        </div>
+        </Swiper>
       </div>
     </div>
     <div class="flex gap-10 items-center ps-[30px] z-20">
@@ -55,7 +98,7 @@
 </template>
 
 <script setup>
-  const loading = ref(true)
+  const loading = ref(true);
   const props = defineProps({
     title: {
       type: String,
@@ -69,6 +112,15 @@
       type: String,
       required: true
     },
+    vision: {
+      type: String,
+      required: true
+    },
+    looking_for: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     imagePathAuthor: {
       type: String,
       required: true
@@ -79,7 +131,7 @@
     }
   });
 
-  const truncateLength = 100;
+  const truncateLength = 140;
   const firstLetter = computed(() => props.story.charAt(0));
   const remainingText = computed(() => {
     return props.story.length > truncateLength
@@ -144,7 +196,7 @@
     left: 50%;/* Align the left edge of the element at the center of the parent */
     transform: translate(-50%, -50%); /* Shift the element left and up by half its own width and height to center it */
     width: 100%;
-    padding: 30px;
+    padding: 30px 0;
     box-sizing: border-box; /* Include padding in width and height calculations */
     opacity: 0;
     transition: opacity 300ms ease-in-out;
